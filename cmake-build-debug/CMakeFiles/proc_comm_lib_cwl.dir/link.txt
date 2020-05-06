@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/proc_comm_lib_cwl.dir/src/main.cpp.o CMakeFiles/proc_comm_lib_cwl.dir/src/cwlconverter.cpp.o CMakeFiles/proc_comm_lib_cwl.dir/src/model/commandlinetool.cpp.o CMakeFiles/proc_comm_lib_cwl.dir/src/model/workflow.cpp.o CMakeFiles/proc_comm_lib_cwl.dir/src/model/graph.cpp.o  -o proc_comm_lib_cwl -lsrc/main.cpp 3ty/yaml-cpp-yaml-cpp-0.6.3/libyaml-cpp.a 
