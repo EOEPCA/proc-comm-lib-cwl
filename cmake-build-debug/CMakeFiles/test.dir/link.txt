@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -g   CMakeFiles/test.dir/src/main.cpp.o CMakeFiles/test.dir/src/cwlconverter.cpp.o CMakeFiles/test.dir/src/model/commandlinetool.cpp.o CMakeFiles/test.dir/src/model/workflow.cpp.o CMakeFiles/test.dir/src/model/graph.cpp.o  -o test 3ty/yaml-cpp-yaml-cpp-0.6.3/libyaml-cpp.a 
