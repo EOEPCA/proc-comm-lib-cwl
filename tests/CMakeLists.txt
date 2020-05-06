@@ -46,7 +46,7 @@ include_directories(../src/model)
 
 #
 add_executable(${LIB_TEST_NAME} ${test_sources}  )
-target_link_libraries(${LIB_TEST_NAME}  ${MODS_LIBS}  gtest_main yaml-cpp )
+target_link_libraries(${LIB_TEST_NAME}  ${MODS_LIBS}  gtest_main yaml-cpp sources )
 add_test(NAME cwl_parser_test_run COMMAND ${LIB_TEST_NAME})
 
 

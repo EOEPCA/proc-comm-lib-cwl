@@ -29,10 +29,10 @@ SET(MODS_LIBS
         z m dl
         )
 
-add_library(sources STATIC ${LIB_SRC} yaml-cpp )
+add_library(sources STATIC ${LIB_SRC}  )
+target_link_libraries(sources yaml-cpp  ${MODS_LIBS})
 
 add_executable(proc_comm_lib_cwl ${src_main})
-
 target_link_libraries(proc_comm_lib_cwl ${MODS_LIBS} sources )
 
 add_subdirectory(tests)
