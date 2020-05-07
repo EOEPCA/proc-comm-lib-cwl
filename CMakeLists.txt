@@ -5,9 +5,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MACOSX_RPATH OFF)
 set(CMAKE_CXX_FLAGS "-fPIC")
 
-set(YAML_CPP_BUILD_TESTS OFF: FORCE)
-add_subdirectory(3ty/yaml-cpp-yaml-cpp-0.6.3/)
-include_directories(3ty/yaml-cpp-yaml-cpp-0.6.3/include)
+# YAML-CPP
+if((NOT DEFINED ENV{IMPORT_YAML_CPP}) OR ($ENV{IMPORT_YAML_CPP}))
+    set(YAML_CPP_BUILD_TESTS OFF: FORCE)
+    add_subdirectory(3ty/yaml-cpp-yaml-cpp-0.6.3)
+    include_directories(3ty/yaml-cpp-yaml-cpp-0.6.3/include)
+ENDIF()
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
