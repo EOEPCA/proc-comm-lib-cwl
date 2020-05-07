@@ -35,4 +35,6 @@ target_link_libraries(sources yaml-cpp  ${MODS_LIBS})
 add_executable(proc_comm_lib_cwl ${src_main})
 target_link_libraries(proc_comm_lib_cwl ${MODS_LIBS} sources )
 
-add_subdirectory(tests)
+if((NOT DEFINED ENV{RUN_TESTS}) OR ($ENV{RUN_TESTS}))
+    add_subdirectory(tests)
+ENDIF()
