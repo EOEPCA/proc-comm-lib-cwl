@@ -40,11 +40,16 @@ void Graph::loadFile(std::string_view filePath, std::string &buffer) {
 
 void Graph::loadCwlFile(std::string cwlFile) {
 
-    std::cout << "Loading CWL " << cwlFile << std::endl;
+    std::ifstream infile(cwlFile);
+    if (!infile.good()) {
+        std::cout<<"File not found "<<cwlFile<<std::endl;
+        throw;
+    }
+
+
     std::string buffer;
 
     Graph::loadFile(cwlFile, buffer);
-    std::cout << "Loading CWL Complete " << buffer << std::endl;
     CWLModel cwlRootModel;
     YAML::Node node = YAML::Load(buffer);
     CwlConverter::loadModel(node, &cwlRootModel);

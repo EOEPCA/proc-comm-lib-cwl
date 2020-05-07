@@ -35,7 +35,6 @@ $graph:
     requirements:
       EnvVarRequirement:
         envDef:
-          BLA: 123123
           PATH: /opt/anaconda/envs/env_app/conda-otb/bin:/opt/anaconda/envs/env_app/bin:/opt/anaconda/condabin:/opt/anaconda/envs/env_app/bin:/opt/anaconda/bin:/home/jenkins/envs/bin:/opt/anaconda/condabin:/home/jenkins/workspace/t2pc/pipeline-conda@tmp/withMaven892294c4:/opt/anaconda/bin:/usr/local/bin:/bin:/usr/bin
     stderr: std.err
     stdout: std.out

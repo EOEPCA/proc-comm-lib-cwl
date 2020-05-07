@@ -450,9 +450,7 @@ namespace CommandLineTool {
         //position
         auto position = CwlConverter::find(cwlModel, "position", "");
         if (position.has_value()) {
-            //std::cout<<position->getVal()<<std::endl;
             CommandLineBinding::setPosition(std::stoi(position->getVal()));
-            //std::cout<<CommandLineBinding::getPosition()<<std::endl;
         }
 
     }
