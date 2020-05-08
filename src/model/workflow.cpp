@@ -57,8 +57,6 @@ namespace Workflow {
 
     void Workflow::loadCwlModel(CWLModel cwlModel) {
 
-        std::cout << "Load workflow" << std::endl;
-
         auto id = CwlConverter::find(cwlModel, "id", "");
         if (id.has_value()) { setId(id->getVal()); }
 
@@ -170,7 +168,6 @@ namespace Workflow {
             std::list<WorkflowStep> steps;
             for (auto const &stepData : stepsCwlModel->getList()) {
                 std::string stepName = stepData.getId();
-                std::cout << stepName << std::endl;
                 auto stepCwlModel = CwlConverter::find(stepData, stepName, "");
                 WorkflowStep workflowStep;
                 workflowStep.setLabel(stepName);

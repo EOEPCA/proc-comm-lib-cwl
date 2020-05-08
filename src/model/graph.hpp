@@ -34,6 +34,7 @@ public:
 
     void loadCwlFile(std::string cwlFile);
 
+    void loadCwlFileContent(std::string buffer);
 };
 
 #endif //RESTJSON_GRAPH_HPP
