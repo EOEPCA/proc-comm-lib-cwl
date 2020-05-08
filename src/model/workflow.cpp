@@ -57,6 +57,8 @@ namespace Workflow {
 
     void Workflow::loadCwlModel(CWLModel cwlModel) {
 
+        std::cout << "Load workflow" << std::endl;
+
         auto id = CwlConverter::find(cwlModel, "id", "");
         if (id.has_value()) { setId(id->getVal()); }
 
@@ -139,28 +141,42 @@ namespace Workflow {
                 }
                 requirements.emplace_back(envVarRequirement);
             }
+        }
+        Workflow::setRequirements(requirements);
 
-            Workflow::setRequirements(requirements);
+        // hints
+        auto hintsCwlModel = CwlConverter::find(cwlModel, "hints", "");
+        if (hintsCwlModel.has_value()) {
+            std::list<CommandLineTool::Hint> hints;
 
-            // hints
-            auto hintsCwlModel = CwlConverter::find(cwlModel, "hints", "");
-            if (hintsCwlModel.has_value()) {
-                std::list<CommandLineTool::Hint> hints;
-
-                // dockerRequirementHint
-                auto dockerRequirementCwlModel = CwlConverter::find(hintsCwlModel.value(), "DockerRequirement", "");
-                if (dockerRequirementCwlModel.has_value()) {
-                    auto dockerPullCwlModel = CwlConverter::find(dockerRequirementCwlModel.value(), "dockerPull", "");
-                    if (dockerPullCwlModel.has_value()) {
-                        CommandLineTool::DockerRequirement dockerRequirement;
-                        dockerRequirement.setDockerPull(dockerPullCwlModel->getVal());
-                        CommandLineTool::Hint dockerRequirementHint;
-                        dockerRequirementHint.setDockerRequirement(dockerRequirement);
-                    }
+            // dockerRequirementHint
+            auto dockerRequirementCwlModel = CwlConverter::find(hintsCwlModel.value(), "DockerRequirement", "");
+            if (dockerRequirementCwlModel.has_value()) {
+                auto dockerPullCwlModel = CwlConverter::find(dockerRequirementCwlModel.value(), "dockerPull", "");
+                if (dockerPullCwlModel.has_value()) {
+                    CommandLineTool::DockerRequirement dockerRequirement;
+                    dockerRequirement.setDockerPull(dockerPullCwlModel->getVal());
+                    CommandLineTool::Hint dockerRequirementHint;
+                    dockerRequirementHint.setDockerRequirement(dockerRequirement);
                 }
-                Workflow::setHints(hints);
             }
+            Workflow::setHints(hints);
+        }
 
+
+        // steps
+        auto stepsCwlModel = CwlConverter::find(cwlModel, "steps", "");
+        if (stepsCwlModel.has_value()) {
+            std::list<WorkflowStep> steps;
+            for (auto const &stepData : stepsCwlModel->getList()) {
+                std::string stepName = stepData.getId();
+                std::cout << stepName << std::endl;
+                auto stepCwlModel = CwlConverter::find(stepData, stepName, "");
+                WorkflowStep workflowStep;
+                workflowStep.loadCwlModel(stepCwlModel.value());
+                steps.emplace_back(workflowStep);
+            }
+            Workflow::setSteps(steps);
         }
 
     }
@@ -169,6 +185,12 @@ namespace Workflow {
     }
     void Workflow::setInputs(const std::list<CommandLineTool::Input> &inputs) {
         Workflow::inputs = inputs;
+    }
+    const std::list<WorkflowStep> &Workflow::getSteps() const {
+        return steps;
+    }
+    void Workflow::setSteps(const std::list<WorkflowStep> &steps) {
+        Workflow::steps = steps;
     }
 
     const std::string &CommandOutputBinding::getGlob() const {
@@ -344,16 +366,16 @@ namespace Workflow {
     void WorkflowStep::setId(const std::string &id) {
         WorkflowStep::id = id;
     }
-    const std::map<std::string, WorkflowStepInput> &WorkflowStep::getIn() const {
+    const std::map<std::string, std::string> &WorkflowStep::getIn() const {
         return in;
     }
-    void WorkflowStep::setIn(const std::map<std::string, WorkflowStepInput> &in) {
+    void WorkflowStep::setIn(const std::map<std::string, std::string> &in) {
         WorkflowStep::in = in;
     }
-    const std::map<std::string, WorkflowStepOutput> &WorkflowStep::getOut() const {
+    const std::list<std::string> &WorkflowStep::getOut() const {
         return out;
     }
-    void WorkflowStep::setOut(const std::map<std::string, WorkflowStepOutput> &out) {
+    void WorkflowStep::setOut(const std::list<std::string> &out) {
         WorkflowStep::out = out;
     }
     const CommandLineTool::CommandLineTool &WorkflowStep::getRun() const {
@@ -392,4 +414,33 @@ namespace Workflow {
     void WorkflowStep::setScatter(const std::string &scatter) {
         WorkflowStep::scatter = scatter;
     }
+
+    void WorkflowStep::loadCwlModel(CWLModel &cwlModel) {
+
+        auto inCwlModel = CwlConverter::find(cwlModel, "in", "");
+
+        if (inCwlModel.has_value()) {
+            std::map<std::string, std::string> in;
+            for (auto const &stepData : inCwlModel->getList()) {
+                std::string stepInArg = stepData.getId();
+                std::string stepInArgValue = CwlConverter::find(stepData, stepInArg, "")->getVal();
+                in[stepInArg]=stepInArgValue;
+            }
+            WorkflowStep::setIn(in);
+        }
+
+
+        auto outCwlModel = CwlConverter::find(cwlModel, "out", "");
+        if (outCwlModel.has_value()) {
+            std::list<std::string> out;
+            for (auto const &stepData : outCwlModel->getList()) {
+                std::string stepOutArg = stepData.getVal();
+                out.emplace_back(stepOutArg);
+            }
+            WorkflowStep::setOut(out);
+        }
+
+        auto runCwlModel = CwlConverter::find(cwlModel, "run", "");
+    }
 }
+

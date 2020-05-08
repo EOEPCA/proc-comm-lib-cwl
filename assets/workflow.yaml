@@ -42,4 +42,5 @@ $graph:
           arg1: input_string
         out:
           - results
+          - results2
         run: '#helloworld'

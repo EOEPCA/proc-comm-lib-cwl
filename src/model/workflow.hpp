@@ -129,8 +129,10 @@ namespace Workflow {
     class WorkflowStep {
     private:
         std::string id;
-        std::map<std::string, WorkflowStepInput> in;
-        std::map<std::string, WorkflowStepOutput> out;
+        //std::map<std::string, WorkflowStepInput> in;
+        std::map<std::string, std::string> in;
+        //std::map<std::string, WorkflowStepOutput> out;
+        std::list<std::string> out;
         CommandLineTool::CommandLineTool run;
         std::list<CommandLineTool::Requirement> requirements;
         std::list<CommandLineTool::Hint> hints;
@@ -142,11 +144,11 @@ namespace Workflow {
         const std::string &getId() const;
         void setId(const std::string &id);
 
-        const std::map<std::string, WorkflowStepInput> &getIn() const;
-        void setIn(const std::map<std::string, WorkflowStepInput> &in);
+        const std::map<std::string, std::string> &getIn() const;
+        void setIn(const std::map<std::string, std::string> &in);
 
-        const std::map<std::string, WorkflowStepOutput> &getOut() const;
-        void setOut(const std::map<std::string, WorkflowStepOutput> &out);
+        const std::list<std::string> &getOut() const;
+        void setOut(const std::list<std::string> &out);
 
         const CommandLineTool::CommandLineTool &getRun() const;
         void setRun(const CommandLineTool::CommandLineTool &run);
@@ -166,6 +168,8 @@ namespace Workflow {
         const std::string &getScatter() const;
         void setScatter(const std::string &scatter);
 
+        void loadCwlModel(CWLModel &cwlModel);
+
     };
 
 /**
@@ -182,6 +186,7 @@ namespace Workflow {
         std::list<CommandLineTool::Requirement> requirements;
         std::list<CommandLineTool::Hint> hints;
         std::string cwlVersion;
+        std::list<WorkflowStep> steps;
 //    steps;
 
     public:
@@ -208,6 +213,9 @@ namespace Workflow {
 
         const std::list<CommandLineTool::Input> &getInputs() const;
         void setInputs(const std::list<CommandLineTool::Input> &inputs);
+
+        const std::list<WorkflowStep> &getSteps() const;
+        void setSteps(const std::list<WorkflowStep> &steps);
 
         void loadCwlModel(CWLModel cwlModel);
 
