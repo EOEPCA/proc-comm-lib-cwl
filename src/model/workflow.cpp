@@ -156,6 +156,7 @@ namespace Workflow {
                     dockerRequirement.setDockerPull(dockerPullCwlModel->getVal());
                     CommandLineTool::Hint dockerRequirementHint;
                     dockerRequirementHint.setDockerRequirement(dockerRequirement);
+                    hints.emplace_back(dockerRequirementHint);
                 }
             }
             Workflow::setHints(hints);

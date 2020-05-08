@@ -45,6 +45,7 @@ void Graph::loadCwlFile(std::string cwlFile) {
         throw;
     }
     std::string buffer;
+    Graph::loadFile(cwlFile,buffer);
     Graph::loadCwlFileContent(buffer);
 }
 

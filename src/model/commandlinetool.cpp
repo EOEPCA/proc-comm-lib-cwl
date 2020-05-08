@@ -167,6 +167,7 @@ namespace CommandLineTool {
                     dockerRequirement.setDockerPull(dockerPullCwlModel->getVal());
                     Hint dockerRequirementHint;
                     dockerRequirementHint.setDockerRequirement(dockerRequirement);
+                    hints.emplace_back(dockerRequirementHint);
                 }
             }
 
