@@ -173,6 +173,7 @@ namespace Workflow {
                 std::cout << stepName << std::endl;
                 auto stepCwlModel = CwlConverter::find(stepData, stepName, "");
                 WorkflowStep workflowStep;
+                workflowStep.setLabel(stepName);
                 workflowStep.loadCwlModel(stepCwlModel.value());
                 steps.emplace_back(workflowStep);
             }
