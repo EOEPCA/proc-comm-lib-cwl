@@ -538,13 +538,13 @@ namespace CommandLineTool {
             Output::setType(type->getVal());
         }
 
-        //outputBinding
+/*        //outputBinding
         auto outputBindingCwlModel = CwlConverter::find(cwlModel, "outputBinding", "");
         if (outputBindingCwlModel.has_value()) {
             CommandOutputBinding outputBinding;
             outputBinding.loadCwlModel(outputBindingCwlModel.value());
             Output::setOutputBinding(outputBinding);
-        }
+        }*/
 
 
     }
