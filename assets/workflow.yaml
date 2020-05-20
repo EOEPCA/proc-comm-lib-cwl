@@ -19,6 +19,27 @@ $graph:
     stderr: std.err
     stdout: std.out
 
+
+  - baseCommand: echo
+    class: CommandLineTool
+    hints:
+      DockerRequirement:
+        dockerPull: helloworld:1.0
+    id: helloworld1
+    inputs:
+      arg1:
+        inputBinding:
+          position: 1
+          prefix: --input
+        type: string
+    outputs:
+      results:
+        outputBinding:
+          glob: .
+        type: Any
+    stderr: std.err
+    stdout: std.out
+
   - class: Workflow
     id: helloworld-wf # service id [WPS] map to wps:Input/ows:identifier
     label: Hello World # title [WPS] map to wps:Input/ows:title
@@ -42,5 +63,4 @@ $graph:
           arg1: input_string
         out:
           - results
-          - results2
         run: '#helloworld'

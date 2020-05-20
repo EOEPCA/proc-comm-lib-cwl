@@ -11,14 +11,14 @@ int main() {
     //graph.loadCwlFile("./fb.yaml");
 
 
-    std::cout<< graph.getCommandLineTool().getBaseCommand() << std::endl;
-    std::cout<< graph.getCommandLineTool().getInputs().front().getInputBinding().getPosition() << std::endl;
-    std::cout<< graph.getCommandLineTool().getInputs().front().getInputBinding().getPrefix() << std::endl;
+    std::cout<< graph.getCommandLineToolList().front().getBaseCommand() << std::endl;
+    std::cout<< graph.getCommandLineToolList().front().getInputs().front().getInputBinding().getPosition() << std::endl;
+    std::cout<< graph.getCommandLineToolList().front().getInputs().front().getInputBinding().getPrefix() << std::endl;
 
 
-    std::cout<< graph.getWorkflow().getDoc() << std::endl;
-    std::cout<< graph.getWorkflow().getInputs().front().getInputBinding().getPosition() << std::endl;
-    std::cout<< graph.getWorkflow().getInputs().front().getInputBinding().getPrefix() << std::endl;
+    std::cout<< graph.getWorkflowList().front().getDoc() << std::endl;
+    std::cout<< graph.getWorkflowList().front().getInputs().front().getInputBinding().getPosition() << std::endl;
+    std::cout<< graph.getWorkflowList().front().getInputs().front().getInputBinding().getPrefix() << std::endl;
 
 
     return 0;

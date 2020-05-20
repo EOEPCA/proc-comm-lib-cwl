@@ -14,18 +14,6 @@ const std::string &Graph::getCwvlVersion() const {
 void Graph::setCwvlVersion(const std::string &cwvlVersion) {
     Graph::cwvlVersion = cwvlVersion;
 }
-const CommandLineTool::CommandLineTool &Graph::getCommandLineTool() const {
-    return commandLineTool;
-}
-void Graph::setCommandLineTool(const CommandLineTool::CommandLineTool &commandLineTool) {
-    Graph::commandLineTool = commandLineTool;
-}
-const Workflow::Workflow &Graph::getWorkflow() const {
-    return workflow;
-}
-void Graph::setWorkflow(const Workflow::Workflow &workflow) {
-    Graph::workflow = workflow;
-}
 
 void Graph::loadFile(std::string_view filePath, std::string &buffer) {
 
@@ -41,14 +29,13 @@ void Graph::loadFile(std::string_view filePath, std::string &buffer) {
 void Graph::loadCwlFile(std::string cwlFile) {
     std::ifstream infile(cwlFile);
     if (!infile.good()) {
-        std::cout<<"File not found "<<cwlFile<<std::endl;
+        std::cout << "File not found " << cwlFile << std::endl;
         throw;
     }
     std::string buffer;
-    Graph::loadFile(cwlFile,buffer);
+    Graph::loadFile(cwlFile, buffer);
     Graph::loadCwlFileContent(buffer);
 }
-
 
 void Graph::loadCwlFileContent(std::string buffer) {
 
@@ -63,20 +50,38 @@ void Graph::loadCwlFileContent(std::string buffer) {
 
     auto graph = CwlConverter::find(cwlRootModel, "$graph", "");
 
-    auto workflowCwlModel = CwlConverter::find(graph.value(), "class", "Workflow");
-    if (workflowCwlModel.has_value()) {
-        Workflow::Workflow workflow1;
-        workflow1.loadCwlModel(workflowCwlModel.value());
-        setWorkflow(workflow1);
+    for (auto const &objectClass : graph->getList()) {
+
+        auto commandLineToolCwlModel = CwlConverter::find(objectClass, "class", "CommandLineTool");
+        auto workflowCwlModel = CwlConverter::find(objectClass, "class", "Workflow");
+
+        if (workflowCwlModel.has_value()) {
+            Workflow::Workflow workflow1;
+            workflow1.loadCwlModel(workflowCwlModel.value());
+            addWorkflow(workflow1);
+        } else if (commandLineToolCwlModel.has_value()) {
+            CommandLineTool::CommandLineTool commandLineTool;
+            commandLineTool.loadCwlModel(commandLineToolCwlModel.value());
+            addCommandLineTool(commandLineTool);
+        }
     }
 
-    auto commandLineToolCwlModel = CwlConverter::find(graph.value(), "class", "CommandLineTool");
-    if (commandLineToolCwlModel.has_value()) {
-        CommandLineTool::CommandLineTool commandLineTool;
-        commandLineTool.loadCwlModel(commandLineToolCwlModel.value());
-        setCommandLineTool(commandLineTool);
-    }
-
-
-
+}
+const std::list<CommandLineTool::CommandLineTool> &Graph::getCommandLineToolList() const {
+    return commandLineToolList;
+}
+void Graph::setCommandLineToolList(const std::list<CommandLineTool::CommandLineTool> &commandLineToolList) {
+    Graph::commandLineToolList = commandLineToolList;
+}
+const std::list<Workflow::Workflow> &Graph::getWorkflowList() const {
+    return workflowList;
+}
+void Graph::setWorkflowList(const std::list<Workflow::Workflow> &workflowList) {
+    Graph::workflowList = workflowList;
+}
+void Graph::addCommandLineTool(const CommandLineTool::CommandLineTool &commandLineTool) {
+    commandLineToolList.emplace_back(commandLineTool);
+}
+void Graph::addWorkflow(const Workflow::Workflow &workflow) {
+    workflowList.emplace_back(workflow);
 }

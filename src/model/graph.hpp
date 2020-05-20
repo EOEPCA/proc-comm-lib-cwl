@@ -15,22 +15,23 @@
 class Graph {
 private:
     std::string cwvlVersion;
-    CommandLineTool::CommandLineTool commandLineTool;
-    Workflow::Workflow workflow;
+    std::list<CommandLineTool::CommandLineTool> commandLineToolList;
+    std::list<Workflow::Workflow> workflowList;
 
     void loadFile(std::string_view filePath, std::string &buffer);
     void LoadModel(const char *program, CWLModel &cwlModel);
-
 
 public:
     const std::string &getCwvlVersion() const;
     void setCwvlVersion(const std::string &cwvlVersion);
 
-    const CommandLineTool::CommandLineTool &getCommandLineTool() const;
-    void setCommandLineTool(const CommandLineTool::CommandLineTool &commandLineTool);
+    const std::list<CommandLineTool::CommandLineTool> &getCommandLineToolList() const;
+    void setCommandLineToolList(const std::list<CommandLineTool::CommandLineTool> &commandLineToolList);
+    void addCommandLineTool(const CommandLineTool::CommandLineTool &commandLineTool);
 
-    const Workflow::Workflow &getWorkflow() const;
-    void setWorkflow(const Workflow::Workflow &workflow);
+    const std::list<Workflow::Workflow> &getWorkflowList() const;
+    void setWorkflowList(const std::list<Workflow::Workflow> &workflowList);
+    void addWorkflow(const Workflow::Workflow &workflow);
 
     void loadCwlFile(std::string cwlFile);
 

@@ -15,13 +15,13 @@ TEST(TEST1_CWL_PARSER, Parsing_cwl_1) {
     Graph graph;
     graph.loadCwlFile(workflow_yaml);
 
-    std::string baseCommand = graph.getCommandLineTool().getBaseCommand();
+    std::string baseCommand = graph.getCommandLineToolList().front().getBaseCommand();
     std::string expected_baseCommand="echo";
 
-    int firstInputPosition = graph.getCommandLineTool().getInputs().front().getInputBinding().getPosition();
+    int firstInputPosition = graph.getCommandLineToolList().front().getInputs().front().getInputBinding().getPosition();
     int expected_firstInputPosition=1;
 
-    std::string firstInputPrefix = graph.getCommandLineTool().getInputs().front().getInputBinding().getPrefix();
+    std::string firstInputPrefix = graph.getCommandLineToolList().front().getInputs().front().getInputBinding().getPrefix();
     std::string expected_firstInputPrefix="--input";
 
 
@@ -31,13 +31,13 @@ TEST(TEST1_CWL_PARSER, Parsing_cwl_1) {
 
 
     std::string expected_workflowDoc = "Hello World Test Workflow";
-    std::string workflowDoc = graph.getWorkflow().getDoc();
+    std::string workflowDoc = graph.getWorkflowList().front().getDoc();
 
     std::string expected_workflowFirstInputType = "string";
-    std::string workflowFirstInputType = graph.getWorkflow().getInputs().front().getType();
+    std::string workflowFirstInputType = graph.getWorkflowList().front().getInputs().front().getType();
 
     std::string expected_workflowFirstInputPrefix="";
-    std::string workflowFirstInputPrefix =  graph.getWorkflow().getInputs().front().getInputBinding().getPrefix();
+    std::string workflowFirstInputPrefix =  graph.getWorkflowList().front().getInputs().front().getInputBinding().getPrefix();
 
     EXPECT_EQ(workflowDoc, expected_workflowDoc);
     EXPECT_EQ(workflowFirstInputType, expected_workflowFirstInputType);
@@ -54,13 +54,13 @@ TEST(TEST1_CWL_PARSER, Parsing_cwl_2) {
     Graph graph;
     graph.loadCwlFile(workflow_yaml);
 
-    std::string baseCommand = graph.getCommandLineTool().getBaseCommand();
+    std::string baseCommand = graph.getCommandLineToolList().front().getBaseCommand();
     std::string expected_baseCommand="s2-thermal-index";
 
-    int firstInputPosition = graph.getCommandLineTool().getInputs().front().getInputBinding().getPosition();
+    int firstInputPosition = graph.getCommandLineToolList().front().getInputs().front().getInputBinding().getPosition();
     int expected_firstInputPosition=2;
 
-    std::string firstInputPrefix = graph.getCommandLineTool().getInputs().front().getInputBinding().getPrefix();
+    std::string firstInputPrefix = graph.getCommandLineToolList().front().getInputs().front().getInputBinding().getPrefix();
     std::string expected_firstInputPrefix="--data_path";
 
 
@@ -70,13 +70,13 @@ TEST(TEST1_CWL_PARSER, Parsing_cwl_2) {
 
 
     std::string expected_workflowDoc = "";
-    std::string workflowDoc = graph.getWorkflow().getDoc();
+    std::string workflowDoc = graph.getWorkflowList().front().getDoc();
 
     std::string expected_workflowFirstInputType = "";
-    std::string workflowFirstInputType = graph.getWorkflow().getInputs().front().getType();
+    std::string workflowFirstInputType = graph.getWorkflowList().front().getInputs().front().getType();
 
     std::string expected_workflowId="mainWorkflow";
-    std::string workflowFirstId =  graph.getWorkflow().getId();
+    std::string workflowFirstId =  graph.getWorkflowList().front().getId();
 
     EXPECT_EQ(workflowDoc, expected_workflowDoc);
     EXPECT_EQ(workflowFirstInputType, expected_workflowFirstInputType);
